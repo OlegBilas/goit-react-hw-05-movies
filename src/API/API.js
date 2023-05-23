@@ -54,16 +54,17 @@ const fetchFilmById = async (filmId, cast=null, reviews=null) => {
       poster_path,
       release_date = '',
       title,
+      popularity,
       overview,
     } = response.data;
 
     return {
-      genres: genres.map(genre => genre.name).join(', '),
-      id,
-      poster_path: `${imgURL}${poster_path}`,
-      year: release_date.slice(0, 4),
-      title,
-      overview,
+        id,
+        poster_path: `${imgURL}${poster_path}`,
+        title: `${title} (${release_date.slice(0, 4)})`,
+        userScore: `${Math.round(popularity)}%`,
+        overview,
+        genres: genres.map(genre => genre.name).join(' '),
     };
     // console.log(newObj);
   } catch (error) {
@@ -92,7 +93,7 @@ const fetchReviewsFilmById = async filmId => {
     const response = await axios.get(
       `${URL}/movie/${filmId}/reviews?api_key=${KEY}&language=en-US`
     );
-    const { results    } = response.data;
+    const {results} = response.data;
 
     return  results.map(({author, content}) => ({author, content}))
   } catch (error) {
