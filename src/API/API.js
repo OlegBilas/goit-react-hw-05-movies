@@ -1,14 +1,10 @@
 import axios from 'axios';
-import { getGenresById } from './genres';
 
 const KEY = '7cac8f2b707803c3d0e6d2661b894935';
 const URL = 'https://api.themoviedb.org/3';
 const imgURL = 'https://image.tmdb.org/t/p/w500';
-let page = 1;
-let perPage = 20;
 
-//
-// ЗАПИТ ЗА КЛЮЧОВИМ СЛОВОМ АБО ПОПУЛЯРНИХ ФІЛЬМІВ
+// Request fims in trending or by key-word
 const fetchFilms = async (filmName, page = 1) => {
   const request = filmName
     ? `${URL}/search/movie?api_key=${KEY}&language=en-US&query=${filmName}&page=${page}`
@@ -22,34 +18,32 @@ const fetchFilms = async (filmName, page = 1) => {
           //фільтрація на заповненість даними
           poster_path && genre_ids && (title || original_title);
         })
-        .map(
+        .map(({ id, title, original_title }) => {
           ({
             id,
-            title,
-            original_title,
-          }) => {
-            ({
-              id,
-              title: title
-                ? title
-                : original_title
-            });
-          }
-        );
+            title: title ? title : original_title,
+          });
+        });
     };
     return {
       page: response.data.page,
       results: takeInfo(response.data.results),
       total_pages: response.data.total_pages,
     };
-
   } catch (error) {
     throw new Error(responce.status);
   }
 };
 
-// ЗАПИТ ПО ID ФІЛЬМУ
-const fetchFilmById = async filmId => {
+// Request by film's ID 
+const fetchFilmById = async (filmId, cast=null, reviews=null) => {
+    if (cast) {
+        return fetchCastFilmById(filmId);
+    } else if (reviews) {
+        return fetchReviewsFilmById(filmId);
+    }
+
+// Common information about film    
   try {
     const response = await axios.get(
       `${URL}/movie/${filmId}?api_key=${KEY}&language=en-US`
@@ -77,56 +71,33 @@ const fetchFilmById = async filmId => {
   }
 };
 
-
-// ЗАПИТ на акторський склад по фільму
+// Request about casting
 const fetchCastFilmById = async filmId => {
-    try {
-      const response = await axios.get(
-        `${URL}/movie/${filmId}/credits?api_key=${KEY}&language=en-US`
-      );
-      const {        cast } = response.data;
-  
-      return {
-        genres: genres.map(genre => genre.name).join(', '),
-        id,
-        poster_path: `${imgURL}${poster_path}`,
-        year: release_date.slice(0, 4),
-        title,
-        overview,
-      };
-      // console.log(newObj);
-    } catch (error) {
-      throw new Error(responce.status);
-    }
-  };
+  try {
+    const response = await axios.get(
+      `${URL}/movie/${filmId}/credits?api_key=${KEY}&language=en-US`
+    );
+    const { cast } = response.data;
 
-  // ЗАПИТ на відгуки по фільму
+    return  cast.map(({name, character}) => ({name, character}))
+    
+  } catch (error) {
+    throw new Error(responce.status);
+  }
+};
+
+// // Request about reviews
 const fetchReviewsFilmById = async filmId => {
-    try {
-      const response = await axios.get(
-        `${URL}/movie/${filmId}?api_key=${KEY}&language=en-US`
-      );
-      const {
-        genres,
-        id,
-        poster_path,
-        release_date = '',
-        title,
-        overview,
-      } = response.data;
-  
-      return {
-        genres: genres.map(genre => genre.name).join(', '),
-        id,
-        poster_path: `${imgURL}${poster_path}`,
-        year: release_date.slice(0, 4),
-        title,
-        overview,
-      };
-      // console.log(newObj);
-    } catch (error) {
-      throw new Error(responce.status);
-    }
-  };
+  try {
+    const response = await axios.get(
+      `${URL}/movie/${filmId}/reviews?api_key=${KEY}&language=en-US`
+    );
+    const { results    } = response.data;
+
+    return  results.map(({author, content}) => ({author, content}))
+  } catch (error) {
+    throw new Error(responce.status);
+  }
+};
 
 export { fetchFilms, fetchFilmById };
