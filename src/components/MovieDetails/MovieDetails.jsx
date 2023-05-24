@@ -27,7 +27,7 @@ const [film, setFilm] = useState({});
       .catch(() =>
         toast.error("We can't find any information about your film!")
       );
-  }, [movieId]);
+  }, [movieId, film]);
 
     const {poster_path, title, userScore, overview, genres} = film;
   return (
