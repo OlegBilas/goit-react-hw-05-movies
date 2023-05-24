@@ -14,9 +14,10 @@ function Movies() {
 
   const handleSubmit = e => {
     e.preventDefault();
-    setFilter(e.target.elements.filter.value.trim());
-    if (filter) {
-      setSearchParams({ query: filter });
+    const q = e.target.elements.filter.value.trim();
+    if (q) {
+      setFilter(q);
+      setSearchParams({ query: q });
     }
   };
 
