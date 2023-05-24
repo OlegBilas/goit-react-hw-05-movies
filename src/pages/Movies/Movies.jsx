@@ -4,7 +4,7 @@ import { useSearchParams } from 'react-router-dom';
 import { useEffect } from 'react';
 
 function Movies() {
-  const [filter, setFilter] = useState();
+  const [filter, setFilter] = useState('');
   const [searchParams, setSearchParams] = useSearchParams();
   const query = searchParams.get('query');
 
@@ -21,12 +21,15 @@ function Movies() {
     }
   };
 
+  // const handleChange = (e) => {
+  //   setFilter(e.target.value.trim());
+  // }
   return (
     <div>
       <form onSubmit={handleSubmit}>
         <label>
           Enter name of film you want to find
-          <input type="text" name="filter" value={filter} />
+          <input type="text" name="filter" value={filter}/>
         </label>
         <button type="submit">Search</button>
       </form>
