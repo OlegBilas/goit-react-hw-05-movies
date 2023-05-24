@@ -1,17 +1,13 @@
 import React from 'react'
-import PropTypes from 'prop-types'
+import ListFilms from 'components/ListFilms/ListFilms'
 
-function Home(props) {
+function Home() {
   return (
-    <div>
-      
-    </div>
+    // <></>
+    <ListFilms/>
   )
 }
 
-Home.propTypes = {
-
-}
 
 export default Home
 

@@ -14,16 +14,16 @@ const fetchFilms = async (filmName, page = 1) => {
     const response = await axios.get(request);
     const takeInfo = results => {
       return results
-        .filter(({ poster_path, genre_ids, title, original_title }) => {
+        .filter(({ poster_path, genre_ids, title, original_title }) => 
           //фільтрація на заповненість даними
-          poster_path && genre_ids && (title || original_title);
-        })
-        .map(({ id, title, original_title }) => {
+          poster_path && genre_ids && (title || original_title)
+        )
+        .map(({ id, title, original_title }) => 
           ({
             id,
             title: title ? title : original_title,
-          });
-        });
+          })
+        );
     };
     return {
       page: response.data.page,
@@ -31,7 +31,7 @@ const fetchFilms = async (filmName, page = 1) => {
       total_pages: response.data.total_pages,
     };
   } catch (error) {
-    throw new Error(responce.status);
+    throw new Error(error.status);
   }
 };
 
@@ -66,9 +66,9 @@ const fetchFilmById = async (filmId, cast=null, reviews=null) => {
         overview,
         genres: genres.map(genre => genre.name).join(' '),
     };
-    // console.log(newObj);
+
   } catch (error) {
-    throw new Error(responce.status);
+    throw new Error(error.status);
   }
 };
 
@@ -83,7 +83,7 @@ const fetchCastFilmById = async filmId => {
     return  cast.map(({name, character}) => ({name, character}))
     
   } catch (error) {
-    throw new Error(responce.status);
+    throw new Error(error.status);
   }
 };
 
@@ -97,7 +97,7 @@ const fetchReviewsFilmById = async filmId => {
 
     return  results.map(({author, content}) => ({author, content}))
   } catch (error) {
-    throw new Error(responce.status);
+     throw new Error(error.status);
   }
 };
 

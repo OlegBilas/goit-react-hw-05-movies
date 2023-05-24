@@ -1,5 +1,6 @@
 import React from 'react';
 import { NavLink, Outlet } from 'react-router-dom';
+import { ToastContainer } from 'react-toastify';
 
 function SharedLayout() {
   return (
@@ -17,6 +18,7 @@ function SharedLayout() {
         </nav>
       </header>
       <main>
+        <ToastContainer/>
         <Outlet />
       </main>
     </>
