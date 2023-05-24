@@ -50,7 +50,7 @@ const fetchFilmById = async (filmId) => {
       poster_path,
       release_date = '',
       title,
-      popularity,
+      vote_average,
       overview,
     } = response.data;
 
@@ -58,7 +58,7 @@ const fetchFilmById = async (filmId) => {
         id,
         poster_path: `${imgURL}${poster_path}`,
         title: `${title} (${release_date.slice(0, 4)})`,
-        userScore: `${Math.round(popularity)}%`,
+        userScore: `${Math.round(vote_average * 10)}%`,
         overview,
         genres: genres.map(genre => genre.name).join(' '),
     };
