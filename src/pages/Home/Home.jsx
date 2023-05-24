@@ -3,7 +3,6 @@ import ListFilms from 'components/ListFilms/ListFilms'
 
 function Home() {
   return (
-    // <></>
     <ListFilms/>
   )
 }

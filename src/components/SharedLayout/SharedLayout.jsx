@@ -5,6 +5,7 @@ import { ToastContainer } from 'react-toastify';
 function SharedLayout() {
   return (
     <>
+    <ToastContainer/>
       <header>
         <nav>
           <ul>
@@ -18,7 +19,6 @@ function SharedLayout() {
         </nav>
       </header>
       <main>
-        <ToastContainer/>
         <Outlet />
       </main>
     </>

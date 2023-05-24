@@ -25,23 +25,19 @@ const fetchFilms = async (filmName, page = 1) => {
           })
         );
     };
-    return {
-      page: response.data.page,
-      results: takeInfo(response.data.results),
-      total_pages: response.data.total_pages,
-    };
+    // return {
+    //   page: response.data.page,
+    //   results: takeInfo(response.data.results),
+    //   total_pages: response.data.total_pages,
+    // };
+    return takeInfo(response.data.results);
   } catch (error) {
     throw new Error(error.status);
   }
 };
 
 // Request by film's ID 
-const fetchFilmById = async (filmId, cast=null, reviews=null) => {
-    if (cast) {
-        return fetchCastFilmById(filmId);
-    } else if (reviews) {
-        return fetchReviewsFilmById(filmId);
-    }
+const fetchFilmById = async (filmId) => {
 
 // Common information about film    
   try {
@@ -101,4 +97,4 @@ const fetchReviewsFilmById = async filmId => {
   }
 };
 
-export { fetchFilms, fetchFilmById };
+export { fetchFilms, fetchFilmById, fetchCastFilmById, fetchReviewsFilmById};
