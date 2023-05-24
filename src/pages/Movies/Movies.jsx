@@ -1,24 +1,41 @@
 import React, { useState } from 'react';
 import ListFilms from 'components/ListFilms/ListFilms';
+import { useSearchParams } from 'react-router-dom';
+import { useEffect } from 'react';
 
 function Movies() {
-  const [filter, setFilter] = useState('');
+  const [filter, setFilter] = useState();
+  const [searchParams, setSearchParams] = useSearchParams();
+  const query = searchParams.get('query');
 
-  const handleChangeInput = (e)=>{
-    setFilter(e.target.value)
+
+useEffect(() => {
+  setFilter(query)
+}, [query])
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setFilter(e.target.elements.filter.value.trim());
+    if (filter) {
+      setSearchParams({query: filter});
+    }
   }
+
+
+
+
   return (
     <div>
-      <form>
+      <form onSubmit={handleSubmit}>
         <label>
           Enter name of film you want to find
           <input
             type="text"
             name="filter"
             value={filter}
-            onChange={handleChangeInput}
           />
         </label>
+        <button type="submit">Search</button>
       </form>
       {filter && <ListFilms filter={filter} />}
     </div>

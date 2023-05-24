@@ -1,6 +1,6 @@
 import React from 'react';
 import GoBack from '../GoBack/GoBack';
-import { Link, useLocation, useParams } from 'react-router-dom';
+import { Link, Outlet, useLocation, useParams } from 'react-router-dom';
 import { useEffect } from 'react';
 import {
   fetchFilmById,
@@ -53,7 +53,7 @@ const [film, setFilm] = useState({});
                   <Link to='reviews' movieId={movieId}>Reviews</Link>
               </li>
           </ul>
-          
+          <Outlet />
     </section>
   );
 }
