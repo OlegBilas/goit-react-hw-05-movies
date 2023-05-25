@@ -8,28 +8,25 @@ function Movies() {
   const [searchParams, setSearchParams] = useSearchParams();
   const query = searchParams.get('query');
 
-  useEffect(() => {
-    setFilter(query);
-  }, [query]);
-
   const handleSubmit = e => {
     e.preventDefault();
-    const q = e.target.elements.filter.value.trim();
+    const q = e.target.elements.search.value.trim();
     if (q) {
       setFilter(q);
       setSearchParams({ query: q });
     }
   };
 
-  // const handleChange = (e) => {
-  //   setFilter(e.target.value.trim());
-  // }
+  useEffect(() => {
+    setFilter(query);
+  }, [query]);
+
   return (
     <div>
       <form onSubmit={handleSubmit}>
         <label>
           Enter name of film you want to find
-          <input type="text" name="filter" value={filter}/>
+          <input type="text" name="search"/>
         </label>
         <button type="submit">Search</button>
       </form>
