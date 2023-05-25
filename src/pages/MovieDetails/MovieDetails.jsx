@@ -40,18 +40,20 @@ function MovieDetails() {
           <p>{genres}</p>
         </div>
       </div>
-      <p>Additional information</p>
-      <ul>
-        <li>
-          <Link to="cast">Cast</Link>
-        </li>
-        <li>
-          <Link to="reviews">Reviews</Link>
-        </li>
-      </ul>
-      <Suspense fallback={<Loader />}>
-        <Outlet />
-      </Suspense>
+      <div className={css.wrapperAdditional}>
+        <p>Additional information</p>
+        <ul>
+          <li>
+            <Link to="cast">Cast</Link>
+          </li>
+          <li>
+            <Link to="reviews">Reviews</Link>
+          </li>
+        </ul>
+        <Suspense fallback={<Loader />}>
+          <Outlet />
+        </Suspense>
+      </div>
     </section>
   );
 }
