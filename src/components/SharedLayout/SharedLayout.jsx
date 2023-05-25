@@ -1,11 +1,12 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import { NavLink, Outlet } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
+import Loader from "../Loader"; 
 
 function SharedLayout() {
   return (
     <>
-    <ToastContainer/>
+      <ToastContainer />
       <header>
         <nav>
           <ul>
@@ -19,7 +20,9 @@ function SharedLayout() {
         </nav>
       </header>
       <main>
-        <Outlet />
+        <Suspense fallback={<Loader/>}>
+          <Outlet />
+        </Suspense>
       </main>
     </>
   );

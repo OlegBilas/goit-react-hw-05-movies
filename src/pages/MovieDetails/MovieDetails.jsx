@@ -1,4 +1,4 @@
-import React from 'react';
+import { Suspense } from 'react';
 import GoBack from '../../components/GoBack/GoBack';
 import { Link, Outlet, useLocation, useParams } from 'react-router-dom';
 import { useEffect } from 'react';
@@ -6,6 +6,7 @@ import { fetchFilmById } from '../../API/API';
 import { useState, useRef } from 'react';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Loader from "../../components/Loader";
 
 function MovieDetails() {
   const { movieId } = useParams();
@@ -13,7 +14,6 @@ function MovieDetails() {
 
   const location = useLocation();
   const backLinkHref = useRef(location.state?.from ?? '/movies');
-    
 
   useEffect(() => {
     fetchFilmById(movieId)
@@ -48,7 +48,9 @@ function MovieDetails() {
           <Link to="reviews">Reviews</Link>
         </li>
       </ul>
-      <Outlet />
+      <Suspense fallback={<Loader/>}>
+        <Outlet />
+      </Suspense>
     </section>
   );
 }
