@@ -3,6 +3,7 @@ import axios from 'axios';
 const KEY = '7cac8f2b707803c3d0e6d2661b894935';
 const URL = 'https://api.themoviedb.org/3';
 const imgURL = 'https://image.tmdb.org/t/p/w500';
+const smallImgURL = 'https://image.tmdb.org/t/p/w200';
 
 // Request fims in trending or by key-word
 const fetchFilms = async (filmName, page = 1) => {
@@ -14,16 +15,15 @@ const fetchFilms = async (filmName, page = 1) => {
     const response = await axios.get(request);
     const takeInfo = results => {
       return results
-        .filter(({ poster_path, genre_ids, title, original_title }) => 
-          //фільтрація на заповненість даними
-          poster_path && genre_ids && (title || original_title)
+        .filter(
+          ({ poster_path, genre_ids, title, original_title }) =>
+            //фільтрація на заповненість даними
+            poster_path && genre_ids && (title || original_title)
         )
-        .map(({ id, title, original_title }) => 
-          ({
-            id,
-            title: title ? title : original_title,
-          })
-        );
+        .map(({ id, title, original_title }) => ({
+          id,
+          title: title ? title : original_title,
+        }));
     };
     // return {
     //   page: response.data.page,
@@ -36,10 +36,9 @@ const fetchFilms = async (filmName, page = 1) => {
   }
 };
 
-// Request by film's ID 
-const fetchFilmById = async (filmId) => {
-
-// Common information about film    
+// Request by film's ID
+const fetchFilmById = async filmId => {
+  // Common information about film
   try {
     const response = await axios.get(
       `${URL}/movie/${filmId}?api_key=${KEY}&language=en-US`
@@ -55,14 +54,13 @@ const fetchFilmById = async (filmId) => {
     } = response.data;
 
     return {
-        id,
-        poster_path: `${imgURL}${poster_path}`,
-        title: `${title} (${release_date.slice(0, 4)})`,
-        userScore: `${Math.round(vote_average * 10)}%`,
-        overview,
-        genres: genres.map(genre => genre.name).join(' '),
+      id,
+      poster_path: `${imgURL}${poster_path}`,
+      title: `${title} (${release_date.slice(0, 4)})`,
+      userScore: `${Math.round(vote_average * 10)}%`,
+      overview,
+      genres: genres.map(genre => genre.name).join(' '),
     };
-
   } catch (error) {
     throw new Error(error.status);
   }
@@ -76,25 +74,29 @@ const fetchCastFilmById = async filmId => {
     );
     const { cast } = response.data;
 
-    return  cast.map(({name, character}) => ({name, character}))
-    
+    return cast.map(({ id, name, profile_path, character }) => ({
+      id,
+      name,
+      character,
+      photo: profile_path?`${smallImgURL}${profile_path}`:null,
+    }));
   } catch (error) {
     throw new Error(error.status);
   }
 };
 
 // // Request about reviews
-const fetchReviewsFilmById = async filmId => {
+const fetchReviewsFilmById = async (filmId, page = 1) => {
   try {
     const response = await axios.get(
-      `${URL}/movie/${filmId}/reviews?api_key=${KEY}&language=en-US`
+      `${URL}/movie/${filmId}/reviews?api_key=${KEY}&language=en-US&page=${page}`
     );
-    const {results} = response.data;
+    const { results } = response.data;
 
-    return  results.map(({author, content}) => ({author, content}))
+    return results.map(({ id, author, content }) => ({ id, author, content }));
   } catch (error) {
-     throw new Error(error.status);
+    throw new Error(error.status);
   }
 };
 
-export { fetchFilms, fetchFilmById, fetchCastFilmById, fetchReviewsFilmById};
+export { fetchFilms, fetchFilmById, fetchCastFilmById, fetchReviewsFilmById };

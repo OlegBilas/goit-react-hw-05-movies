@@ -1,13 +1,30 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { fetchReviewsFilmById } from '../../API/API';
+import { useState } from 'react';
+import { useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 
-function MovieReviews({ movieId}) {
-  return <div></div>;
+function MovieReviews() {
+  const [reviews, setReviews] = useState([]);
+  const { movieId } = useParams();
+
+  useEffect(() => {
+    fetchReviewsFilmById(movieId).then(result => setReviews(result));
+  }, [movieId]);
+
+  return (
+    <>
+      <ul>
+        {reviews.map(({ id, author, content }) => (
+          <li key={id}>
+            <p>Author: {author}</p>
+            <p>{content}</p>
+          </li>
+        ))}
+      </ul>
+      {reviews.length === 0 && <p>We don't have any reviews for this movie</p>}
+    </>
+  );
 }
-
-MovieReviews.propTypes = {
-    movieId: PropTypes.string.isRequired,
-};
 
 export default MovieReviews;

@@ -40,17 +40,17 @@ function MovieDetails() {
       <p>Additional information</p>
       <ul>
         <li>
-          <Link to="cast" movieId={movieId}>
+          <Link to="cast" >
             Cast
           </Link>
         </li>
         <li>
-          <Link to="reviews" movieId={movieId}>
+          <Link to="reviews" >
             Reviews
           </Link>
         </li>
       </ul>
-      <Outlet />
+      <Outlet/>
     </section>
   );
 }
