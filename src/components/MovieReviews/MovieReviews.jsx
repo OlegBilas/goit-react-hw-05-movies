@@ -3,6 +3,7 @@ import { fetchReviewsFilmById } from '../../API/API';
 import { useState } from 'react';
 import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
+import css from './MovieReviews.module.css';
 
 function MovieReviews() {
   const [reviews, setReviews] = useState([]);
@@ -18,7 +19,7 @@ function MovieReviews() {
         {reviews.map(({ id, author, content }) => (
           <li key={id}>
             <p>Author: {author}</p>
-            <p>{content}</p>
+            <p className={css.text}>{content}</p>
           </li>
         ))}
       </ul>

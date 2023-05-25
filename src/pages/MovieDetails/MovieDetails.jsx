@@ -35,9 +35,9 @@ function MovieDetails() {
           <h2>{title}</h2>
           <p>{`User score: ${userScore}`}</p>
           <h3>Overview</h3>
-          <p>{overview}</p>
+          <p className={css.text}>{overview}</p>
           <h3>Genres</h3>
-          <p>{genres}</p>
+          <p className={css.text}>{genres}</p>
         </div>
       </div>
       <div className={css.wrapperAdditional}>
