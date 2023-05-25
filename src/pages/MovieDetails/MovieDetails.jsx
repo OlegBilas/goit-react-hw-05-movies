@@ -6,7 +6,8 @@ import { fetchFilmById } from '../../API/API';
 import { useState, useRef } from 'react';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import Loader from "../../components/Loader";
+import Loader from '../../components/Loader/Loader';
+import css from './MovieDetails.module.css';
 
 function MovieDetails() {
   const { movieId } = useParams();
@@ -28,8 +29,8 @@ function MovieDetails() {
   return (
     <section>
       <GoBack to={backLinkHref.current}>Go back</GoBack>
-      <div>
-        <img src={poster_path} alt={title} />
+      <div className={css.wrapper}>
+        <img className={css.poster} src={poster_path} alt={title} />
         <div>
           <h2>{title}</h2>
           <p>{`User score: ${userScore}`}</p>
@@ -48,7 +49,7 @@ function MovieDetails() {
           <Link to="reviews">Reviews</Link>
         </li>
       </ul>
-      <Suspense fallback={<Loader/>}>
+      <Suspense fallback={<Loader />}>
         <Outlet />
       </Suspense>
     </section>

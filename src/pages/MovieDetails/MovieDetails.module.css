@@ -1,0 +1,7 @@
+.wrapper {
+  display: flex;
+  gap: 10px;
+}
+.poster {
+  max-width: 30%;
+}

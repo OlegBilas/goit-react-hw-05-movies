@@ -1,0 +1,19 @@
+header {
+  padding: 10px 20px;
+  background-color: rgb(220, 209, 209);
+}
+
+.list {
+  display: flex;
+  list-style: none;
+  gap: 10px;
+}
+
+.link {
+  display: inline-block;
+  text-decoration: none;
+  padding: 5px;
+  border: solid 1px;
+  border-radius: 3px;
+  font-weight: 500;
+}

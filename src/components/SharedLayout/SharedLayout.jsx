@@ -1,7 +1,8 @@
 import React, { Suspense } from 'react';
 import { NavLink, Outlet } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
-import Loader from "../Loader"; 
+import Loader from '../Loader/Loader';
+import css from './SharedLayout.module.css';
 
 function SharedLayout() {
   return (
@@ -9,18 +10,22 @@ function SharedLayout() {
       <ToastContainer />
       <header>
         <nav>
-          <ul>
+          <ul className={css.list}>
             <li>
-              <NavLink to="/">Home</NavLink>
+              <NavLink to="/" className={css.link}>
+                Home
+              </NavLink>
             </li>
             <li>
-              <NavLink to="/movies">Movies</NavLink>
+              <NavLink to="/movies" className={css.link}>
+                Movies
+              </NavLink>
             </li>
           </ul>
         </nav>
       </header>
       <main>
-        <Suspense fallback={<Loader/>}>
+        <Suspense fallback={<Loader />}>
           <Outlet />
         </Suspense>
       </main>

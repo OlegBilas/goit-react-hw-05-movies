@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import ListFilms from 'components/ListFilms/ListFilms';
 import { useSearchParams } from 'react-router-dom';
 import { useEffect } from 'react';
+import css from './Movies.module.css';
 
 function Movies() {
   const [filter, setFilter] = useState('');
@@ -24,10 +25,12 @@ function Movies() {
   return (
     <div>
       <form onSubmit={handleSubmit}>
-        <label>
-          Enter name of film you want to find
-          <input type="text" name="search"/>
-        </label>
+        <input
+          className={css.search}
+          type="text"
+          name="search"
+          placeholder="Enter name of film you want to find"
+        />
         <button type="submit">Search</button>
       </form>
       {filter && <ListFilms filter={filter} />}
