@@ -11,7 +11,7 @@ const fetchFilms = async (filmName, page = 1) => {
     ? `${URL}/search/movie?api_key=${KEY}&language=en-US&query=${filmName}&page=${page}`
     : `${URL}/trending/all/day?api_key=${KEY}&page=${page}`;
 
-  try {
+  
     const response = await axios.get(request);
     const takeInfo = results => {
       return results
@@ -25,21 +25,12 @@ const fetchFilms = async (filmName, page = 1) => {
           title: title ? title : original_title,
         }));
     };
-    // return {
-    //   page: response.data.page,
-    //   results: takeInfo(response.data.results),
-    //   total_pages: response.data.total_pages,
-    // };
+   
     return takeInfo(response.data.results);
-  } catch (error) {
-    throw new Error(error.status);
-  }
 };
 
-// Request by film's ID
+// Request by film's ID (сommon information about film)
 const fetchFilmById = async filmId => {
-  // Common information about film
-  try {
     const response = await axios.get(
       `${URL}/movie/${filmId}?api_key=${KEY}&language=en-US`
     );
@@ -61,14 +52,12 @@ const fetchFilmById = async filmId => {
       overview,
       genres: genres.map(genre => genre.name).join(' '),
     };
-  } catch (error) {
-    throw new Error(error.status);
-  }
+
 };
 
 // Request about casting
 const fetchCastFilmById = async filmId => {
-  try {
+  
     const response = await axios.get(
       `${URL}/movie/${filmId}/credits?api_key=${KEY}&language=en-US`
     );
@@ -80,23 +69,19 @@ const fetchCastFilmById = async filmId => {
       character,
       photo: profile_path?`${smallImgURL}${profile_path}`:null,
     }));
-  } catch (error) {
-    throw new Error(error.status);
-  }
+  
 };
 
 // // Request about reviews
 const fetchReviewsFilmById = async (filmId, page = 1) => {
-  try {
+  
     const response = await axios.get(
       `${URL}/movie/${filmId}/reviews?api_key=${KEY}&language=en-US&page=${page}`
     );
     const { results } = response.data;
 
     return results.map(({ id, author, content }) => ({ id, author, content }));
-  } catch (error) {
-    throw new Error(error.status);
-  }
+  
 };
 
 export { fetchFilms, fetchFilmById, fetchCastFilmById, fetchReviewsFilmById };
