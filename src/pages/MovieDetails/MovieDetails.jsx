@@ -3,7 +3,7 @@ import GoBack from '../../components/GoBack/GoBack';
 import { Link, Outlet, useLocation, useParams } from 'react-router-dom';
 import { useEffect } from 'react';
 import { fetchFilmById } from '../../API/API';
-import { useState, useRef } from 'react';
+import { useState } from 'react';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Loader from '../../components/Loader/Loader';
@@ -14,7 +14,6 @@ function MovieDetails() {
   const [film, setFilm] = useState({});
 
   const location = useLocation();
-  const backLinkHref = useRef(location.state?.from ?? '/movies');
 
   useEffect(() => {
     fetchFilmById(movieId)
@@ -28,7 +27,7 @@ function MovieDetails() {
 
   return (
     <section>
-      <GoBack to={backLinkHref.current}>Go back</GoBack>
+      <GoBack to={location.state ? location.state : '/movies'}>Go back</GoBack>
       <div className={css.wrapper}>
         <img className={css.poster} src={poster_path} alt={title} />
         <div>
